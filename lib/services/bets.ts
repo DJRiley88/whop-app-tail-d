@@ -1,5 +1,7 @@
 import { db, bets, tails, challenges, users } from "../db";
-import { eq, and, desc, asc, sql, gte, lte } from "drizzle-orm";
+import { eq, and, desc, asc, sql, gte, lte, InferSelectModel } from "drizzle-orm";
+
+type Bet = InferSelectModel<typeof bets>;
 
 export interface CreateBetData {
   challengeId: string;
@@ -109,7 +111,7 @@ export async function getBetsForChallenge(challengeId: string) {
 
   // Get stats for each bet
   const betsWithStats = await Promise.all(
-    betsList.map(async (bet) => {
+    betsList.map(async (bet: Bet) => {
       const stats = await db
         .select({
           totalTails: sql<number>`count(${tails.id})`,
@@ -205,7 +207,7 @@ export async function getAllBets() {
 
   // Get stats for each bet
   const betsWithStats = await Promise.all(
-    betsList.map(async (bet) => {
+    betsList.map(async (bet: any) => {
       const stats = await db
         .select({
           totalTails: sql<number>`count(${tails.id})`,
