@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useRouter, usePathname } from "next/navigation";
 import Link from "next/link";
+import { useUser } from "@/lib/contexts/user-context";
 import { 
   Grid3X3, 
   Trophy, 
@@ -27,7 +28,7 @@ interface NavItem {
   isActive?: boolean;
 }
 
-const navigationItems: NavItem[] = [
+const allNavigationItems: NavItem[] = [
   {
     id: "dashboard",
     label: "Dashboard",
@@ -57,7 +58,25 @@ const navigationItems: NavItem[] = [
 export default function Sidebar({ className = "" }: SidebarProps) {
   const router = useRouter();
   const pathname = usePathname();
+  const { user, loading } = useUser();
   const [hoveredItem, setHoveredItem] = useState<string | null>(null);
+
+  // Filter navigation items based on user role
+  const navigationItems = allNavigationItems.filter((item) => {
+    // If loading or no user, show all items (will refresh once loaded)
+    if (loading || !user) {
+      return true;
+    }
+    // Show all items for admins
+    if (user.isAdmin) {
+      return true;
+    }
+    // For members, hide analytics (admin-only)
+    if (item.id === "analytics") {
+      return false;
+    }
+    return true;
+  });
 
   const handleNavigation = (href: string) => {
     router.push(href);

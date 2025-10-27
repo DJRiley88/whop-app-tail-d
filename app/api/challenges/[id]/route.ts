@@ -10,14 +10,14 @@ export async function GET(
     const { id } = await params;
     const challenge = await getChallengeWithStats(id);
     if (!challenge) {
-      return NextResponse.json({ error: "Challenge not found" }, { status: 404 });
+      return NextResponse.json({ challenge: null, error: "Challenge not found" }, { status: 404 });
     }
 
     return NextResponse.json({ challenge });
   } catch (error) {
     console.error("Error fetching challenge:", error);
     return NextResponse.json(
-      { error: "Failed to fetch challenge" },
+      { challenge: null, error: "Failed to fetch challenge" },
       { status: 500 }
     );
   }

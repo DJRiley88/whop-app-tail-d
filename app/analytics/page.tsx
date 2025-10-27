@@ -1,6 +1,8 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
+import { useUser } from "@/lib/contexts/user-context";
 import AppLayout from "@/components/layout/app-layout";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/simple-card";
 import { 
@@ -15,7 +17,8 @@ import {
   Calendar,
   Filter,
   Download,
-  RefreshCw
+  RefreshCw,
+  ShieldX
 } from "lucide-react";
 import Link from "next/link";
 
@@ -48,10 +51,19 @@ interface AnalyticsData {
 }
 
 export default function AnalyticsPage() {
+  const router = useRouter();
+  const { user, loading: userLoading } = useUser();
   const [analytics, setAnalytics] = useState<AnalyticsData | null>(null);
   const [loading, setLoading] = useState(true);
   const [timeRange, setTimeRange] = useState<"24h" | "7d" | "30d" | "all">("7d");
   const [challengeId, setChallengeId] = useState<string | null>(null);
+
+  // Redirect if user is not admin
+  useEffect(() => {
+    if (!userLoading && user && !user.isAdmin) {
+      router.push("/dashboard");
+    }
+  }, [user, userLoading, router]);
 
   useEffect(() => {
     fetchAnalytics();
@@ -97,13 +109,37 @@ export default function AnalyticsPage() {
     }
   };
 
-  if (loading) {
+  // Show loading state while checking permissions
+  if (userLoading || loading) {
     return (
       <AppLayout>
         <div className="min-h-screen bg-[var(--bg-primary)] flex items-center justify-center">
           <div className="text-center">
             <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-[var(--accent-cyan)]"></div>
             <p className="mt-4 text-[var(--text-secondary)]">Loading analytics...</p>
+          </div>
+        </div>
+      </AppLayout>
+    );
+  }
+
+  // Show access denied if user is not admin
+  if (user && !user.isAdmin) {
+    return (
+      <AppLayout>
+        <div className="min-h-screen bg-[var(--bg-primary)] flex items-center justify-center" style={{ paddingLeft: '120px' }}>
+          <div className="text-center">
+            <div className="w-24 h-24 bg-red-500/20 rounded-full flex items-center justify-center mx-auto mb-6">
+              <ShieldX className="h-12 w-12 text-red-500" />
+            </div>
+            <h1 className="text-3xl font-bold text-white mb-4">Access Denied</h1>
+            <p className="text-[var(--text-secondary)] mb-8">This page is only available to administrators.</p>
+            <button
+              onClick={() => router.push("/dashboard")}
+              className="px-6 py-3 bg-[var(--accent-cyan)] text-black font-semibold rounded-lg hover:bg-[#00C7E6] transition-colors"
+            >
+              Go to Dashboard
+            </button>
           </div>
         </div>
       </AppLayout>

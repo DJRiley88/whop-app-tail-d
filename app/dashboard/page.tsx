@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { useUser } from "@/lib/contexts/user-context";
 import AppLayout from "@/components/layout/app-layout";
 import { 
   Users, 
@@ -15,7 +16,9 @@ import {
   BarChart3,
   Zap,
   Target,
-  Trophy
+  Trophy,
+  Plus,
+  Settings
 } from "lucide-react";
 
 interface Player {
@@ -36,9 +39,11 @@ interface Player {
   avatar: string;
   trend: 'up' | 'down' | 'stable';
   change: number;
+  totalTails?: number;
 }
 
 export default function DashboardPage() {
+  const { user, loading } = useUser();
   const [summaryStats, setSummaryStats] = useState({
     totalRegistered: 1277,
     totalParticipated: 255,
@@ -285,7 +290,8 @@ export default function DashboardPage() {
       rewards: { trophy: 12500, diamond: 6800 },
       avatar: "👑",
       trend: 'up',
-      change: 1.5
+      change: 1.5,
+      totalTails: 245
     }
   ]);
 
@@ -296,15 +302,28 @@ export default function DashboardPage() {
           <div className="bg-black/95 backdrop-blur-sm border-b border-white/10">
             <div className="flex flex-col sm:flex-row sm:justify-between items-start sm:items-center p-6 gap-4">
               <div>
-                <h1 className="text-3xl font-bold text-white mb-1" style={{ fontSize: '32px', fontWeight: '700', lineHeight: '1.2' }}>Dashboard</h1>
-                <p className="text-[#B0B0B0] text-sm" style={{ fontSize: '14px', fontWeight: '400', lineHeight: '1.5' }}>Real-time performance analytics & rankings</p>
+                <h1 className="text-3xl font-bold text-white mb-1" style={{ fontSize: '32px', fontWeight: '700', lineHeight: '1.2' }}>
+                  {loading ? 'Dashboard' : (user?.isAdmin ? 'Admin Dashboard' : 'My Dashboard')}
+                </h1>
+                <p className="text-[#B0B0B0] text-sm" style={{ fontSize: '14px', fontWeight: '400', lineHeight: '1.5' }}>
+                  {loading ? 'Loading...' : (user?.isAdmin ? 'Manage challenges, view analytics & track performance' : 'Track your progress, view rankings & discover bets')}
+                </p>
               </div>
               <div className="flex items-center gap-2 sm:gap-3">
+                {!loading && user?.isAdmin && (
+                  <button className="flex items-center gap-2 px-4 py-2 bg-[#00D9FF] text-black font-semibold rounded-lg hover:bg-[#00C7E6] transition-colors">
+                    <Plus className="h-4 w-4" />
+                    <span className="hidden sm:inline">Create Challenge</span>
+                  </button>
+                )}
                 <div className="flex items-center gap-3 bg-[#1A1A1A] rounded-lg px-4 py-2 border border-white/10">
                   <div className="w-8 h-8 bg-[#00D9FF] rounded-full flex items-center justify-center">
-                    <span className="text-sm font-bold text-black">U</span>
+                    <span className="text-sm font-bold text-black">{user?.displayName?.[0]?.toUpperCase() || 'U'}</span>
                   </div>
-                  <span className="text-white font-medium text-sm hidden sm:inline">Uxisrat</span>
+                  <div className="hidden sm:flex flex-col">
+                    <span className="text-white font-medium text-sm">{user?.displayName || 'User'}</span>
+                    {!loading && <span className="text-[#808080] text-xs">{user?.isAdmin ? 'Admin' : 'Member'}</span>}
+                  </div>
                 </div>
               </div>
             </div>
@@ -315,46 +334,54 @@ export default function DashboardPage() {
 
           {/* Summary Cards */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-6 lg:gap-8 mb-6 sm:mb-8 w-full">
-            {/* Total Registered */}
-            <div className="card card-glow-cyan animate-fade-in">
-              <div className="flex items-center justify-between mb-4">
-                <div 
-                  className="metric-icon metric-icon-glow"
-                  style={{ 
-                    background: 'linear-gradient(135deg, var(--status-success), var(--accent-teal))',
-                    boxShadow: '0 0 20px rgba(16, 185, 129, 0.4)'
-                  }}
-                >
-                  <Users className="h-6 w-6 text-white relative z-10" />
+            {/* Admin/Member specific stats */}
+            {loading ? (
+              <div className="col-span-3 text-center py-12">
+                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#00D9FF] mx-auto mb-4"></div>
+                <p className="text-[#808080]">Loading...</p>
+              </div>
+            ) : (user?.isAdmin ? (
+              <>
+                {/* Total Registered - Admin Only */}
+                <div className="card card-glow-cyan animate-fade-in">
+                  <div className="flex items-center justify-between mb-4">
+                    <div 
+                      className="metric-icon metric-icon-glow"
+                      style={{ 
+                        background: 'linear-gradient(135deg, var(--status-success), var(--accent-teal))',
+                        boxShadow: '0 0 20px rgba(16, 185, 129, 0.4)'
+                      }}
+                    >
+                      <Users className="h-6 w-6 text-white relative z-10" />
+                        </div>
+                    <div className="flex items-center gap-2">
+                      <TrendingUp className="h-4 w-4" style={{ color: 'var(--status-success)' }} />
+                      <span 
+                        className="text-small font-semibold"
+                        style={{ color: 'var(--status-success)' }}
+                      >
+                        +12.5%
+                      </span>
                     </div>
-                <div className="flex items-center gap-2">
-                  <TrendingUp className="h-4 w-4" style={{ color: 'var(--status-success)' }} />
-                  <span 
-                    className="text-small font-semibold"
-                    style={{ color: 'var(--status-success)' }}
+                  </div>
+                  <div 
+                    className="metric-value"
+                    style={{ 
+                      background: 'linear-gradient(135deg, var(--text-primary), var(--accent-cyan))',
+                      WebkitBackgroundClip: 'text',
+                      WebkitTextFillColor: 'transparent',
+                      backgroundClip: 'text'
+                    }}
                   >
-                    +12.5%
-                  </span>
+                    {summaryStats.totalRegistered.toLocaleString()}
+                  </div>
+                  <div 
+                    className="metric-label"
+                    style={{ color: 'var(--text-tertiary)' }}
+                  >
+                    Total Registered
+                  </div>
                 </div>
-              </div>
-              <div 
-                className="metric-value"
-                style={{ 
-                  background: 'linear-gradient(135deg, var(--text-primary), var(--accent-cyan))',
-                  WebkitBackgroundClip: 'text',
-                  WebkitTextFillColor: 'transparent',
-                  backgroundClip: 'text'
-                }}
-              >
-                {summaryStats.totalRegistered.toLocaleString()}
-              </div>
-              <div 
-                className="metric-label"
-                style={{ color: 'var(--text-tertiary)' }}
-              >
-                Total Registered
-              </div>
-        </div>
 
             {/* Total Participated */}
             <div className="card card-glow-purple animate-fade-in" style={{ animationDelay: '0.1s' }}>
@@ -450,6 +477,115 @@ export default function DashboardPage() {
                     </div>
                   </div>
                 </div>
+                </>
+              ) : (
+                <>
+                  {/* Member Personal Stats */}
+                  <div className="card card-glow-cyan animate-fade-in">
+                    <div className="flex items-center justify-between mb-4">
+                      <div 
+                        className="metric-icon metric-icon-glow"
+                        style={{ 
+                          background: 'linear-gradient(135deg, var(--status-success), var(--accent-teal))',
+                          boxShadow: '0 0 20px rgba(16, 185, 129, 0.4)'
+                        }}
+                      >
+                        <Target className="h-6 w-6 text-white relative z-10" />
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <TrendingUp className="h-4 w-4" style={{ color: 'var(--status-success)' }} />
+                        <span 
+                          className="text-small font-semibold"
+                          style={{ color: 'var(--status-success)' }}
+                        >
+                          +8.2%
+                        </span>
+                      </div>
+                    </div>
+                    <div 
+                      className="metric-value"
+                      style={{ 
+                        background: 'linear-gradient(135deg, var(--text-primary), var(--accent-cyan))',
+                        WebkitBackgroundClip: 'text',
+                        WebkitTextFillColor: 'transparent',
+                        backgroundClip: 'text'
+                      }}
+                    >
+                      {fullRankings.find(p => p.id === 'current')?.points.toLocaleString() || '0'}
+                    </div>
+                    <div 
+                      className="metric-label"
+                      style={{ color: 'var(--text-tertiary)' }}
+                    >
+                      My Total Points
+                    </div>
+                  </div>
+
+                  <div className="card card-glow-purple animate-fade-in" style={{ animationDelay: '0.1s' }}>
+                    <div className="flex items-center justify-between mb-4">
+                      <div 
+                        className="metric-icon"
+                        style={{ 
+                          background: 'linear-gradient(135deg, var(--accent-blue), var(--accent-purple))',
+                          boxShadow: '0 0 20px rgba(59, 130, 246, 0.4)'
+                        }}
+                      >
+                        <Trophy className="h-6 w-6 text-white relative z-10" />
+                      </div>
+                    </div>
+                    <div 
+                      className="metric-value"
+                      style={{ 
+                        background: 'linear-gradient(135deg, var(--text-primary), var(--accent-purple))',
+                        WebkitBackgroundClip: 'text',
+                        WebkitTextFillColor: 'transparent',
+                        backgroundClip: 'text'
+                      }}
+                    >
+                      #{fullRankings.find(p => p.id === 'current')?.rank || 'Unranked'}
+                    </div>
+                    <div 
+                      className="metric-label"
+                      style={{ color: 'var(--text-tertiary)' }}
+                    >
+                      My Rank
+                    </div>
+                  </div>
+
+                  <div className="card card-glow-teal animate-fade-in" style={{ animationDelay: '0.2s' }}>
+                    <div className="flex items-center justify-between mb-4">
+                      <div 
+                        className="metric-icon"
+                        style={{ 
+                          background: 'linear-gradient(135deg, #ff6b35, #f7931e) !important',
+                          boxShadow: '0 0 20px rgba(255, 107, 53, 0.4) !important'
+                        }}
+                      >
+                        <Activity className="h-6 w-6 text-white relative z-10" />
+                      </div>
+                    </div>
+                    <div 
+                      className="metric-value"
+                      style={{ 
+                        background: 'linear-gradient(135deg, var(--text-primary), var(--accent-teal))',
+                        WebkitBackgroundClip: 'text',
+                        WebkitTextFillColor: 'transparent',
+                        backgroundClip: 'text'
+                      }}
+                    >
+                      {fullRankings.find(p => p.id === 'current')?.totalTails?.toLocaleString() || '0'}
+                    </div>
+                    <div 
+                      className="metric-label"
+                      style={{ color: 'var(--text-tertiary)' }}
+                    >
+                      Valid Tails
+                    </div>
+                  </div>
+                </>
+              )
+            )}
+          </div>
 
           {/* Top 3 Players */}
           <div className="mt-8 sm:mt-12" style={{ marginTop: '32px' }}>

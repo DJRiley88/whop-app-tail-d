@@ -84,6 +84,20 @@ NEXT_PUBLIC_WHOP_COMPANY_ID=your_company_id
 POSTGRES_URL_NON_POOLING=postgresql://user:password@localhost:5432/tailed
 ```
 
+### Seed Demo Data
+
+After setting up your database, populate it with demo challenges:
+
+```bash
+pnpm run seed
+```
+
+This creates:
+- Demo admin user
+- Active challenges with prize pools
+- Sample betting slips
+- Demo users and participation data
+
 ## 📱 Usage
 
 ### For Creators
@@ -192,17 +206,29 @@ POSTGRES_URL_NON_POOLING=postgresql://user:password@localhost:5432/tailed
 
 ## 🚀 Deployment
 
-### Vercel Deployment
-1. **Connect repository** to Vercel
-2. **Set environment variables** in Vercel dashboard
-3. **Configure database** connection
-4. **Deploy** with automatic builds
+📖 **For detailed deployment instructions, see [DEPLOYMENT_INSTRUCTIONS.md](./DEPLOYMENT_INSTRUCTIONS.md)**
 
-### Database Setup
-1. **Create PostgreSQL database**
-2. **Run migrations** on deployment
-3. **Configure connection pooling**
-4. **Set up monitoring** and backups
+### Quick Steps
+
+1. **Deploy to Vercel**
+   - Connect repository to Vercel
+   - Set environment variables in Vercel dashboard
+   - Deploy automatically
+
+2. **Seed Your Database**
+   ```bash
+   pnpm run seed
+   ```
+   This populates your database with demo challenges and data.
+
+3. **Configure Whop App**
+   - Go to Whop Dashboard → Your App → Settings
+   - Set App URL to your Vercel production URL (root URL only)
+   - Save changes
+
+4. **Test & Submit**
+   - Install app in a Whop space to test
+   - Submit to Whop App Store when ready
 
 ## 🤝 Contributing
 

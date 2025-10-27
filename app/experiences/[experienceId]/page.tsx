@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -55,12 +56,14 @@ interface UserStats {
 }
 
 export default function ExperiencePage({ params }: { params: Promise<{ experienceId: string }> }) {
+  const router = useRouter();
   const [challenge, setChallenge] = useState<Challenge | null>(null);
   const [bets, setBets] = useState<Bet[]>([]);
   const [leaderboard, setLeaderboard] = useState<LeaderboardEntry[]>([]);
   const [userStats, setUserStats] = useState<UserStats | null>(null);
   const [loading, setLoading] = useState(true);
   const [tailing, setTailing] = useState<Set<string>>(new Set());
+  const [redirecting, setRedirecting] = useState(false);
 
   useEffect(() => {
     fetchChallengeData();
@@ -69,17 +72,37 @@ export default function ExperiencePage({ params }: { params: Promise<{ experienc
     return () => clearInterval(interval);
   }, []);
 
+  // Immediate redirect if no challenge
+  useEffect(() => {
+    if (!loading && !challenge && !redirecting) {
+      setRedirecting(true);
+      window.location.href = "/dashboard";
+    }
+  }, [loading, challenge, redirecting]);
+
   const fetchChallengeData = async () => {
     try {
       const resolvedParams = await params;
-      const [challengeRes, betsRes, leaderboardRes, userStatsRes] = await Promise.all([
-        fetch(`/api/challenges/${resolvedParams.experienceId}`),
+      
+      // First check if challenge exists
+      const challengeRes = await fetch(`/api/challenges/${resolvedParams.experienceId}`);
+      const challengeData = await challengeRes.json();
+      
+      // Check if challenge exists or if there's an error
+      if (!challengeData.challenge || challengeRes.status === 404) {
+        console.log("[Experiences] Challenge not found, redirecting to dashboard");
+        setRedirecting(true);
+        window.location.href = "/dashboard";
+        return;
+      }
+      
+      // If challenge exists, fetch the rest of the data
+      const [betsRes, leaderboardRes, userStatsRes] = await Promise.all([
         fetch(`/api/bets?challengeId=${resolvedParams.experienceId}`),
         fetch(`/api/leaderboard/${resolvedParams.experienceId}?limit=10`),
         fetch(`/api/leaderboard/${resolvedParams.experienceId}?userId=current`)
       ]);
 
-      const challengeData = await challengeRes.json();
       const betsData = await betsRes.json();
       const leaderboardData = await leaderboardRes.json();
       const userStatsData = await userStatsRes.json();
@@ -89,7 +112,10 @@ export default function ExperiencePage({ params }: { params: Promise<{ experienc
       setLeaderboard(leaderboardData.leaderboard || []);
       setUserStats(userStatsData.userStats);
     } catch (error) {
-      console.error("Error fetching challenge data:", error);
+      console.error("[Experiences] Error fetching challenge data:", error);
+      // Redirect to dashboard on error
+      setRedirecting(true);
+      window.location.href = "/dashboard";
     } finally {
       setLoading(false);
     }
@@ -175,23 +201,53 @@ export default function ExperiencePage({ params }: { params: Promise<{ experienc
     return colors[league] || colors.other;
   };
 
-  if (loading) {
+  if (redirecting) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+      <div className="min-h-screen bg-black flex items-center justify-center" style={{
+        minHeight: '100vh',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: '#0A0A0A'
+      }}>
         <div className="text-center">
-          <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-blue-600"></div>
-          <p className="mt-4 text-gray-600">Loading challenge...</p>
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#00D9FF] mx-auto mb-4"></div>
+          <p className="text-gray-400">Redirecting to dashboard...</p>
         </div>
       </div>
     );
   }
 
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-black flex items-center justify-center" style={{
+        minHeight: '100vh',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: '#0A0A0A'
+      }}>
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-[#00D9FF]"></div>
+          <p className="mt-4 text-gray-400">Loading...</p>
+        </div>
+      </div>
+    );
+  }
+
+  // If no challenge and not loading, show redirect message
   if (!challenge) {
     return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+      <div className="min-h-screen bg-black flex items-center justify-center" style={{
+        minHeight: '100vh',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: '#0A0A0A'
+      }}>
         <div className="text-center">
-          <h1 className="text-2xl font-bold text-gray-900 mb-4">Challenge Not Found</h1>
-          <p className="text-gray-600">This challenge doesn't exist or has been removed.</p>
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#00D9FF] mx-auto mb-4"></div>
+          <p className="text-gray-400">Redirecting to dashboard...</p>
         </div>
       </div>
     );
