@@ -11,6 +11,7 @@ export default function Page() {
 
 	useEffect(() => {
 		// Redirect to dashboard immediately
+		// Updated to trigger new deployment
 		router.push("/dashboard");
 	}, [router]);
 
