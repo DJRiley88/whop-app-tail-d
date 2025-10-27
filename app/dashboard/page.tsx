@@ -296,11 +296,11 @@ export default function DashboardPage() {
     }
   ]);
 
-    return (
-      <AppLayout>
-        <div style={{ paddingLeft: '120px', paddingRight: '120px' }}>
-          {/* Header */}
-          <div className="bg-black/95 backdrop-blur-sm border-b border-white/10">
+  return (
+    <AppLayout>
+      <div style={{ paddingLeft: '120px', paddingRight: '120px' }}>
+        {/* Header */}
+        <div className="bg-black/95 backdrop-blur-sm border-b border-white/10">
             <div className="flex flex-col sm:flex-row sm:justify-between items-start sm:items-center p-6 gap-4">
               <div>
                 <h1 className="text-3xl font-bold text-white mb-1" style={{ fontSize: '32px', fontWeight: '700', lineHeight: '1.2' }}>
@@ -783,8 +783,8 @@ export default function DashboardPage() {
               </table>
             </div>
           </div>
-          </div>
         </div>
-      </AppLayout>
-    );
-  }
+      </div>
+    </AppLayout>
+  );
+}
