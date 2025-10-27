@@ -6,15 +6,26 @@
 		"dev": "whop-proxy --command 'next dev --turbopack'",
 		"build": "next build",
 		"start": "next start",
-		"lint": "next lint"
+		"lint": "next lint",
+		"migrate": "tsx scripts/migrate.ts",
+		"postinstall": "tsx scripts/migrate.ts"
 	},
 	"dependencies": {
+		"@paralleldrive/cuid2": "^3.1.0",
+		"@radix-ui/react-slot": "^1.2.3",
 		"@vercel/functions": "^2.0.3",
 		"@whop/api": "^0.0.50",
 		"@whop/react": "0.2.36",
+		"class-variance-authority": "^0.7.1",
+		"clsx": "^2.1.1",
+		"dotenv": "^17.2.3",
+		"drizzle-orm": "^0.44.6",
+		"lucide-react": "^0.546.0",
 		"next": "15.3.2",
+		"postgres": "^3.4.7",
 		"react": "^19.0.0",
-		"react-dom": "^19.0.0"
+		"react-dom": "^19.0.0",
+		"tailwind-merge": "^3.3.1"
 	},
 	"devDependencies": {
 		"@biomejs/biome": "^1.9.4",
@@ -24,7 +35,9 @@
 		"@types/react-dom": "^19",
 		"@whop-apps/dev-proxy": "0.0.1-canary.116",
 		"dotenv-cli": "^8.0.0",
+		"drizzle-kit": "^0.31.5",
 		"tailwindcss": "^4",
+		"tsx": "^4.20.6",
 		"typescript": "^5"
 	},
 	"packageManager": "pnpm@9.15.9+sha512.68046141893c66fad01c079231128e9afb89ef87e2691d69e4d40eee228988295fd4682181bae55b58418c3a253bde65a505ec7c5f9403ece5cc3cd37dcf2531"

@@ -1,0 +1,499 @@
+{
+  "designSystem": {
+    "metadata": {
+      "name": "Modern Dashboard Design System",
+      "version": "1.0.0",
+      "description": "A sophisticated, data-driven dashboard design system with dark theme and vibrant accent colors",
+      "category": "Analytics/SaaS Dashboard"
+    },
+    "colorPalette": {
+      "theme": "dark",
+      "background": {
+        "primary": "#000000",
+        "secondary": "#0A0A0A",
+        "tertiary": "#1A1A1A",
+        "surface": "#1E1E1E",
+        "elevated": "#252525"
+      },
+      "text": {
+        "primary": "#FFFFFF",
+        "secondary": "#B0B0B0",
+        "tertiary": "#808080",
+        "muted": "#606060"
+      },
+      "accent": {
+        "cyan": "#00D9FF",
+        "purple": "#8B5CF6",
+        "teal": "#14B8A6",
+        "red": "#EF4444",
+        "pink": "#EC4899",
+        "blue": "#3B82F6"
+      },
+      "status": {
+        "success": "#10B981",
+        "warning": "#F59E0B",
+        "error": "#EF4444",
+        "info": "#3B82F6",
+        "pending": "#F59E0B"
+      },
+      "charts": {
+        "gradients": true,
+        "opacity": "0.8-1.0",
+        "useVibrancy": true
+      }
+    },
+    "typography": {
+      "fontFamily": {
+        "primary": "Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif",
+        "monospace": "'JetBrains Mono', 'Fira Code', monospace"
+      },
+      "scale": {
+        "display": {
+          "fontSize": "48-64px",
+          "fontWeight": "700-800",
+          "lineHeight": "1.1"
+        },
+        "heading1": {
+          "fontSize": "32-40px",
+          "fontWeight": "700",
+          "lineHeight": "1.2"
+        },
+        "heading2": {
+          "fontSize": "24-28px",
+          "fontWeight": "600-700",
+          "lineHeight": "1.3"
+        },
+        "heading3": {
+          "fontSize": "18-20px",
+          "fontWeight": "600",
+          "lineHeight": "1.4"
+        },
+        "body": {
+          "fontSize": "14-16px",
+          "fontWeight": "400-500",
+          "lineHeight": "1.5"
+        },
+        "small": {
+          "fontSize": "12-13px",
+          "fontWeight": "400-500",
+          "lineHeight": "1.4"
+        },
+        "tiny": {
+          "fontSize": "10-11px",
+          "fontWeight": "400",
+          "lineHeight": "1.3"
+        }
+      },
+      "letterSpacing": {
+        "tight": "-0.02em",
+        "normal": "0",
+        "wide": "0.02em"
+      }
+    },
+    "spacing": {
+      "system": "8px base unit",
+      "scale": [
+        0,
+        4,
+        8,
+        12,
+        16,
+        20,
+        24,
+        32,
+        40,
+        48,
+        64,
+        80,
+        96
+      ],
+      "component": {
+        "cardPadding": "16-24px",
+        "sectionGap": "24-32px",
+        "elementGap": "12-16px",
+        "gridGap": "16-24px"
+      }
+    },
+    "borderRadius": {
+      "none": "0px",
+      "sm": "4px",
+      "md": "8px",
+      "lg": "12px",
+      "xl": "16px",
+      "2xl": "20px",
+      "full": "9999px"
+    },
+    "shadows": {
+      "none": "none",
+      "sm": "0 1px 2px 0 rgba(0, 0, 0, 0.3)",
+      "md": "0 4px 6px -1px rgba(0, 0, 0, 0.4)",
+      "lg": "0 10px 15px -3px rgba(0, 0, 0, 0.5)",
+      "xl": "0 20px 25px -5px rgba(0, 0, 0, 0.6)",
+      "glow": {
+        "cyan": "0 0 20px rgba(0, 217, 255, 0.3)",
+        "purple": "0 0 20px rgba(139, 92, 246, 0.3)",
+        "teal": "0 0 20px rgba(20, 184, 166, 0.3)"
+      }
+    },
+    "layout": {
+      "structure": {
+        "type": "dashboard-grid",
+        "columns": "12-column grid system",
+        "breakpoints": {
+          "mobile": "320-767px",
+          "tablet": "768-1023px",
+          "desktop": "1024-1439px",
+          "wide": "1440px+"
+        }
+      },
+      "header": {
+        "height": "64-80px",
+        "position": "fixed/sticky",
+        "elements": [
+          "logo",
+          "navigation",
+          "date",
+          "notifications",
+          "userProfile"
+        ],
+        "backgroundColor": "background.primary",
+        "borderBottom": "1px solid rgba(255,255,255,0.1)"
+      },
+      "sidebar": {
+        "width": "240-280px",
+        "collapsible": true,
+        "position": "fixed",
+        "note": "Not shown in this design but common pattern"
+      },
+      "mainContent": {
+        "maxWidth": "100%",
+        "padding": "24-32px"
+      }
+    },
+    "components": {
+      "cards": {
+        "variants": [
+          "metric",
+          "chart",
+          "table",
+          "map",
+          "list"
+        ],
+        "structure": {
+          "backgroundColor": "background.tertiary",
+          "borderRadius": "xl",
+          "padding": "20-24px",
+          "border": "1px solid rgba(255,255,255,0.05)",
+          "shadow": "md",
+          "hover": {
+            "transform": "translateY(-2px)",
+            "shadow": "lg",
+            "transition": "all 0.2s ease"
+          }
+        },
+        "metricCard": {
+          "layout": "vertical",
+          "elements": [
+            "icon",
+            "label",
+            "value",
+            "change",
+            "menu"
+          ],
+          "iconStyle": {
+            "size": "40-48px",
+            "shape": "circle",
+            "backgroundColor": "accent color with opacity",
+            "padding": "12px"
+          },
+          "valueStyle": {
+            "fontSize": "32-40px",
+            "fontWeight": "700",
+            "color": "text.primary"
+          },
+          "changeIndicator": {
+            "showArrow": true,
+            "showPercentage": true,
+            "colorCode": true,
+            "fontSize": "12-14px"
+          }
+        },
+        "tableCard": {
+          "header": {
+            "columns": [
+              "dynamic based on data"
+            ],
+            "fontSize": "12px",
+            "fontWeight": "500",
+            "color": "text.tertiary",
+            "textTransform": "uppercase"
+          },
+          "rows": {
+            "height": "48-56px",
+            "divider": "1px solid rgba(255,255,255,0.05)",
+            "hover": {
+              "backgroundColor": "rgba(255,255,255,0.03)"
+            }
+          },
+          "cells": {
+            "padding": "12-16px",
+            "alignment": "left/right based on content",
+            "fontSize": "14px"
+          }
+        },
+        "chartCard": {
+          "title": {
+            "fontSize": "14-16px",
+            "fontWeight": "600",
+            "marginBottom": "16px"
+          },
+          "chart": {
+            "height": "200-300px",
+            "type": [
+              "bar",
+              "line",
+              "area"
+            ],
+            "colors": "accent colors with gradients",
+            "gridLines": "rgba(255,255,255,0.05)",
+            "tooltip": true
+          },
+          "legend": {
+            "position": "bottom/top-right",
+            "fontSize": "12px"
+          }
+        }
+      },
+      "buttons": {
+        "primary": {
+          "backgroundColor": "accent color",
+          "color": "white",
+          "padding": "10px 20px",
+          "borderRadius": "md",
+          "fontWeight": "500",
+          "hover": {
+            "backgroundColor": "lighter shade",
+            "transform": "scale(1.02)"
+          }
+        },
+        "secondary": {
+          "backgroundColor": "transparent",
+          "border": "1px solid rgba(255,255,255,0.2)",
+          "color": "text.primary",
+          "padding": "10px 20px",
+          "borderRadius": "md"
+        },
+        "ghost": {
+          "backgroundColor": "transparent",
+          "color": "text.secondary",
+          "padding": "8px 12px",
+          "hover": {
+            "backgroundColor": "rgba(255,255,255,0.05)"
+          }
+        },
+        "icon": {
+          "size": "32-40px",
+          "padding": "8px",
+          "borderRadius": "md",
+          "backgroundColor": "transparent",
+          "hover": {
+            "backgroundColor": "rgba(255,255,255,0.1)"
+          }
+        }
+      },
+      "navigation": {
+        "type": "horizontal-tabs",
+        "items": {
+          "padding": "12px 16px",
+          "fontSize": "14px",
+          "fontWeight": "500",
+          "color": "text.secondary",
+          "borderRadius": "md",
+          "active": {
+            "color": "text.primary",
+            "backgroundColor": "rgba(255,255,255,0.1)"
+          },
+          "hover": {
+            "backgroundColor": "rgba(255,255,255,0.05)"
+          }
+        }
+      },
+      "dataVisualization": {
+        "charts": {
+          "barChart": {
+            "barRadius": "4px 4px 0 0",
+            "barSpacing": "8-12px",
+            "gradients": true,
+            "animation": "smooth entrance"
+          },
+          "lineChart": {
+            "strokeWidth": "2-3px",
+            "pointRadius": "4-6px",
+            "areaOpacity": "0.1-0.3",
+            "smooth": true
+          },
+          "mapVisualization": {
+            "backgroundColor": "background.tertiary",
+            "countryFill": "rgba(255,255,255,0.1)",
+            "countryStroke": "rgba(255,255,255,0.2)",
+            "dataPoints": {
+              "size": "8-12px",
+              "color": "accent colors",
+              "glow": true
+            }
+          }
+        }
+      },
+      "inputs": {
+        "search": {
+          "height": "40px",
+          "backgroundColor": "background.tertiary",
+          "border": "1px solid rgba(255,255,255,0.1)",
+          "borderRadius": "md",
+          "padding": "0 16px",
+          "fontSize": "14px",
+          "placeholder": {
+            "color": "text.muted"
+          },
+          "focus": {
+            "border": "1px solid accent color",
+            "shadow": "glow"
+          }
+        }
+      },
+      "badges": {
+        "structure": {
+          "padding": "4px 12px",
+          "borderRadius": "full",
+          "fontSize": "12px",
+          "fontWeight": "500"
+        },
+        "variants": {
+          "success": {
+            "backgroundColor": "rgba(16, 185, 129, 0.2)",
+            "color": "#10B981"
+          },
+          "pending": {
+            "backgroundColor": "rgba(245, 158, 11, 0.2)",
+            "color": "#F59E0B"
+          },
+          "error": {
+            "backgroundColor": "rgba(239, 68, 68, 0.2)",
+            "color": "#EF4444"
+          }
+        }
+      },
+      "dropdown": {
+        "trigger": {
+          "padding": "8px 12px",
+          "borderRadius": "md",
+          "backgroundColor": "transparent",
+          "hover": {
+            "backgroundColor": "rgba(255,255,255,0.05)"
+          }
+        },
+        "menu": {
+          "backgroundColor": "background.elevated",
+          "borderRadius": "lg",
+          "shadow": "xl",
+          "border": "1px solid rgba(255,255,255,0.1)",
+          "padding": "8px"
+        },
+        "item": {
+          "padding": "10px 12px",
+          "borderRadius": "md",
+          "fontSize": "14px",
+          "hover": {
+            "backgroundColor": "rgba(255,255,255,0.1)"
+          }
+        }
+      }
+    },
+    "iconography": {
+      "style": "outline/line icons",
+      "weight": "2px stroke",
+      "sizes": {
+        "xs": "16px",
+        "sm": "20px",
+        "md": "24px",
+        "lg": "32px",
+        "xl": "40px"
+      },
+      "usage": [
+        "navigation",
+        "status indicators",
+        "actions",
+        "decorative"
+      ],
+      "color": "inherit from text or accent colors"
+    },
+    "animations": {
+      "transitions": {
+        "default": "all 0.2s ease",
+        "fast": "all 0.15s ease",
+        "slow": "all 0.3s ease"
+      },
+      "effects": {
+        "hover": "subtle scale or translate",
+        "cardEntrance": "fade in with slide up",
+        "chartAnimation": "progressive reveal",
+        "microInteractions": "subtle feedback on clicks"
+      },
+      "easing": [
+        "ease",
+        "ease-in-out",
+        "cubic-bezier(0.4, 0, 0.2, 1)"
+      ]
+    },
+    "designPrinciples": {
+      "hierarchy": "Clear visual hierarchy with bold metrics, subtle secondary info",
+      "density": "Medium to high information density without clutter",
+      "contrast": "High contrast text on dark background for readability",
+      "colorUsage": "Strategic use of vibrant accent colors for categories and emphasis",
+      "whitespace": "Generous padding within components, balanced spacing between",
+      "consistency": "Repeated patterns for similar data types",
+      "dataFirst": "Visual design supports quick data comprehension",
+      "modern": "Contemporary glass-morphism subtle effects, rounded corners, smooth transitions"
+    },
+    "responsiveness": {
+      "mobile": {
+        "gridColumns": "1-2 columns",
+        "cardStacking": "vertical",
+        "fontSize": "slightly reduced",
+        "padding": "reduced by 25%"
+      },
+      "tablet": {
+        "gridColumns": "2-3 columns",
+        "maintainCardSizes": true
+      },
+      "desktop": {
+        "gridColumns": "3-4 columns",
+        "fullFeatureSet": true
+      }
+    },
+    "accessibility": {
+      "contrast": "WCAG AAA for text, AA minimum for UI elements",
+      "focusIndicators": "visible outline with accent color",
+      "keyboardNavigation": "full support",
+      "ariaLabels": "comprehensive for screen readers",
+      "colorBlindness": "don't rely solely on color for meaning"
+    },
+    "dataPresentation": {
+      "numbers": {
+        "formatting": "comma separators for thousands",
+        "decimals": "contextual (0-2 places)",
+        "currency": "symbol prefix",
+        "percentages": "with % symbol and +/- indicator"
+      },
+      "dates": {
+        "format": "Apr 14 2025 or contextual",
+        "relative": "use when appropriate"
+      },
+      "status": {
+        "useColor": true,
+        "useIcon": true,
+        "useText": true
+      }
+    }
+  }
+}
