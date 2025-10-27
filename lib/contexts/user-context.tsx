@@ -39,22 +39,24 @@ export function UserProvider({ children }: { children: ReactNode }) {
       } else {
         const errorData = await response.json().catch(() => ({}));
         console.error("[UserContext] Failed to fetch user:", errorData);
-        // Set a default non-admin user on failure to prevent infinite loading
+        // When running outside Whop, set demo admin user
+        console.log("[UserContext] Setting demo admin user for local testing");
         setUser({
-          id: "default",
-          username: "user",
-          displayName: "User",
-          isAdmin: false,
+          id: "demo_admin",
+          username: "admin",
+          displayName: "Admin",
+          isAdmin: true,
         });
       }
     } catch (error) {
       console.error("[UserContext] Error fetching user:", error);
-      // Set a default non-admin user on failure
+      // When running outside Whop, set demo admin user
+      console.log("[UserContext] Setting demo admin user for local testing");
       setUser({
-        id: "default",
-        username: "user",
-        displayName: "User",
-        isAdmin: false,
+        id: "demo_admin",
+        username: "admin",
+        displayName: "Admin",
+        isAdmin: true,
       });
     } finally {
       setLoading(false);
