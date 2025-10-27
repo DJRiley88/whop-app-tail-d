@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { useUser } from "@/lib/contexts/user-context";
 import AppLayout from "@/components/layout/app-layout";
+import Link from "next/link";
 import { 
   Users, 
   Clock, 
@@ -311,10 +312,12 @@ export default function DashboardPage() {
               </div>
               <div className="flex items-center gap-2 sm:gap-3">
                 {!loading && user?.isAdmin && (
-                  <button className="flex items-center gap-2 px-4 py-2 bg-[#00D9FF] text-black font-semibold rounded-lg hover:bg-[#00C7E6] transition-colors">
-                    <Plus className="h-4 w-4" />
-                    <span className="hidden sm:inline">Create Challenge</span>
-                  </button>
+                  <Link href="/experiences/new">
+                    <button className="flex items-center gap-2 px-4 py-2 bg-[#00D9FF] text-black font-semibold rounded-lg hover:bg-[#00C7E6] transition-colors">
+                      <Plus className="h-4 w-4" />
+                      <span className="hidden sm:inline">Create Challenge</span>
+                    </button>
+                  </Link>
                 )}
                 <div className="flex items-center gap-3 bg-[#1A1A1A] rounded-lg px-4 py-2 border border-white/10">
                   <div className="w-8 h-8 bg-[#00D9FF] rounded-full flex items-center justify-center">
