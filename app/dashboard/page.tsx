@@ -301,39 +301,39 @@ export default function DashboardPage() {
       <div style={{ paddingLeft: '120px', paddingRight: '120px' }}>
         {/* Header */}
         <div className="bg-black/95 backdrop-blur-sm border-b border-white/10">
-            <div className="flex flex-col sm:flex-row sm:justify-between items-start sm:items-center p-6 gap-4">
-              <div>
-                <h1 className="text-3xl font-bold text-white mb-1" style={{ fontSize: '32px', fontWeight: '700', lineHeight: '1.2' }}>
-                  {loading ? 'Dashboard' : (user?.isAdmin ? 'Admin Dashboard' : 'My Dashboard')}
-                </h1>
-                <p className="text-[#B0B0B0] text-sm" style={{ fontSize: '14px', fontWeight: '400', lineHeight: '1.5' }}>
-                  {loading ? 'Loading...' : (user?.isAdmin ? 'Manage challenges, view analytics & track performance' : 'Track your progress, view rankings & discover bets')}
-                </p>
-              </div>
-              <div className="flex items-center gap-2 sm:gap-3">
-                {!loading && user?.isAdmin && (
-                  <Link href="/experiences/new">
-                    <button className="flex items-center gap-2 px-4 py-2 bg-[#00D9FF] text-black font-semibold rounded-lg hover:bg-[#00C7E6] transition-colors">
-                      <Plus className="h-4 w-4" />
-                      <span className="hidden sm:inline">Create Challenge</span>
-                    </button>
-                  </Link>
-                )}
-                <div className="flex items-center gap-3 bg-[#1A1A1A] rounded-lg px-4 py-2 border border-white/10">
-                  <div className="w-8 h-8 bg-[#00D9FF] rounded-full flex items-center justify-center">
-                    <span className="text-sm font-bold text-black">{user?.displayName?.[0]?.toUpperCase() || 'U'}</span>
-                  </div>
-                  <div className="hidden sm:flex flex-col">
-                    <span className="text-white font-medium text-sm">{user?.displayName || 'User'}</span>
-                    {!loading && <span className="text-[#808080] text-xs">{user?.isAdmin ? 'Admin' : 'Member'}</span>}
-                  </div>
+          <div className="flex flex-col sm:flex-row sm:justify-between items-start sm:items-center p-6 gap-4">
+            <div>
+              <h1 className="text-3xl font-bold text-white mb-1" style={{ fontSize: '32px', fontWeight: '700', lineHeight: '1.2' }}>
+                {loading ? 'Dashboard' : (user?.isAdmin ? 'Admin Dashboard' : 'My Dashboard')}
+              </h1>
+              <p className="text-[#B0B0B0] text-sm" style={{ fontSize: '14px', fontWeight: '400', lineHeight: '1.5' }}>
+                {loading ? 'Loading...' : (user?.isAdmin ? 'Manage challenges, view analytics & track performance' : 'Track your progress, view rankings & discover bets')}
+              </p>
+            </div>
+            <div className="flex items-center gap-2 sm:gap-3">
+              {!loading && user?.isAdmin && (
+                <Link href="/experiences/new">
+                  <button className="flex items-center gap-2 px-4 py-2 bg-[#00D9FF] text-black font-semibold rounded-lg hover:bg-[#00C7E6] transition-colors">
+                    <Plus className="h-4 w-4" />
+                    <span className="hidden sm:inline">Create Challenge</span>
+                  </button>
+                </Link>
+              )}
+              <div className="flex items-center gap-3 bg-[#1A1A1A] rounded-lg px-4 py-2 border border-white/10">
+                <div className="w-8 h-8 bg-[#00D9FF] rounded-full flex items-center justify-center">
+                  <span className="text-sm font-bold text-black">{user?.displayName?.[0]?.toUpperCase() || 'U'}</span>
+                </div>
+                <div className="hidden sm:flex flex-col">
+                  <span className="text-white font-medium text-sm">{user?.displayName || 'User'}</span>
+                  {!loading && <span className="text-[#808080] text-xs">{user?.isAdmin ? 'Admin' : 'Member'}</span>}
                 </div>
               </div>
             </div>
           </div>
+        </div>
 
-          {/* Main Content */}
-          <div className="p-6 lg:p-8 space-y-4 sm:space-y-6 w-full mt-16">
+        {/* Main Content */}
+        <div className="p-6 lg:p-8 space-y-4 sm:space-y-6 w-full mt-16">
 
           {/* Summary Cards */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-6 lg:gap-8 mb-6 sm:mb-8 w-full">
